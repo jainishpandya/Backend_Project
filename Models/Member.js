@@ -12,8 +12,9 @@ const MemberSchema = new Schema ({
         reference: 'clubs',
         required: true
     },
-    role: {
+    role_no: {
         type: Number,
+        reference: 'role',
         required: true
     },
     join_date: {

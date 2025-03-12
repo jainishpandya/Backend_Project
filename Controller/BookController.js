@@ -47,23 +47,26 @@ const listBook = async (req, res) => {
             "Sci-fi",
             "Music",
             "Family",
-            "Fiction"
+            "Fiction",
+            "Self-help"
         ];
 
         genre === "All"
             ? (genre = [...genreOptions])
-            : (genre = req.query.genre.split(",")) ;
+            : (genre = req.query.genre.split(","));
+
             req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
 
             let sortBy = {};
             if(sort[1]) {
-                sortBy[sort[0] = sort[1]];
+                sortBy[sort[0]] = sort[1].toLowerCase() === 'desc' ? -1 : 1;
             } else {
                 sortBy[sort[0]] = "asc";
             }
 
             console.log(genre);
+            console.log(search)
             
             const books = await BookModel.find({book_title: {$regex: search, $options: "i"}})
                 .where("genre").in([...genre])

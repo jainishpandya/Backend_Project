@@ -5,7 +5,6 @@ const UserModel = require('../Models/User');
 const createClub = async(req, res) => {
     try {
         const {club_name, club_contact_email, club_thumbnail_url, club_location} = req.body;
-        const {admin_email, role_id} = req.body;
 
         const club = await ClubModel.findOne({club_name})
 
@@ -13,19 +12,10 @@ const createClub = async(req, res) => {
             return res.status(409).json({message: "club with this name already exists", success: false});
         }
 
-        const admin = await UserModel.findOne({user_email: admin_email})
-        console.log(admin)
-        if(!admin) {
-            return res.status(409).json({message: "User with this email doesn't exist", success: false});
-        } 
-
         // For Club Creation
         const clubModel = new ClubModel({club_name, club_contact_email, club_thumbnail_url, club_location});
         const ClubDocument = await clubModel.save();
         console.log(ClubDocument);
-        // For Admin Addition
-        const memberModel = new MemberModel({user_id: admin._id, club_id: ClubDocument._id,role: role_id});
-        const MemberDocument = memberModel.save();
 
         res.status(201).json({
             message: "Club Creation Successful",
