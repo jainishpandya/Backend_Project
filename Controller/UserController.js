@@ -11,6 +11,7 @@ const MemberModel = require('../Models/Member');
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(email, password)
         const user = await UserModel.findOne({ user_email: email })
 
         if (user) {
